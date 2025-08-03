@@ -25,8 +25,8 @@ CSVに変換した後、以下のGoogleスプレッドシートで翻訳作業�
 https://docs.google.com/spreadsheets/d/1kY-hnLaPf46MG7BWU3xcOKhk441BC0_LOjXHwEDn9cw/edit?usp=sharing
 
 上のツール部分に翻訳開始とjsonファイルでダウンロードできる項目があります。翻訳実行をするときに極限を促されますが安全にご利用できます。
-また、スプレッドシートでの翻訳では **プレースホルダーが翻訳されません** 
-以下のGitHubリポジトリにあるツールを使用すると、プレースホルダーを自動的に修正することができます。
+また、スプレッドシートでの翻訳では **プレースホルダーが翻訳されません。** 
+以下のGitHubリポジトリにある、私が作成したツールを使用すると、プレースホルダーを自動的に修正することができます。
 
 🔧 **GitHubリポジトリ（自動修正ツール）**  
 https://github.com/nonamesims4/The-Sims-4-MOD-JSON-
