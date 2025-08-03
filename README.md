@@ -1,10 +1,11 @@
 # 🛠 Sims 4 MOD用 JSON to CSV Converter
 
-ツールはこちら🌐https://nonamesims4.github.io/JSON-CSV-/
+ツールはこちら🌐
+<a href="https://nonamesims4.github.io/JSON-CSV-/" target="_blank">別窓で開きます</a>
 
 このツールは、Sims 4のMODファイルで使われている、`key` と `value` の形式のJSONデータをCSVファイルに変換するために作られました。
 
-Googleスプレッドシートなどでの翻訳作業を効率化し、よりスムーズにMODの日本語化を進めることを目的としています。
+Googleスプレッドシートなどでの翻訳作業を効率化し、よりスムーズにMODの日本語化を進めることを目的としています。<br><br>
 
 
 
