@@ -1,7 +1,7 @@
 # 🛠 Sims 4 MOD用 JSON/XML to CSV Converter
 
 ツールはこちら🌐
-<a href="https://nonamesims4.github.io/JSON-CSV-/" target="_blank">別窓で開きます</a>
+<a href="https://nonamesims4.github.io/JSON-CSV-/" target="_blank" rel="noopener noreferrer">別窓で開きます</a>
 
 このツールは、Sims 4のMODファイルで使われている、`key` と `value` の形式のJSONデータやS4 STBL MergeなどのソフトからダウンロードできるxmlファイルをCSVファイルに変換し翻訳するために作られました。
 
@@ -56,7 +56,7 @@ A. 一部環境では、Google翻訳APIがプレースホルダーを文字列�
 私の環境では発生しませんでしたが、念のため後処理ツールで正しい形に戻せるようにしています。
 
 **Q. 翻訳したファイルをそのままMODに使っていいの？**  
-A. こちらのサイトで <a href="https://stbl.sims4toolkit.com/" target="_blank" rel="noopener noreferrer">stbl に変換</a> 後、翻訳ソフトで読み込むと翻訳パッケージとして使用できます。念のためバックアップを取ってからの使用をおすすめします。
+A. こちらの <a href="https://stbl.sims4toolkit.com/" target="_blank" rel="noopener noreferrer">STBL Studio</a> でstblに変換後、翻訳ソフトで読み込むと翻訳パッケージとして使用できます。念のためバックアップを取ってからの使用をおすすめします。
 
 
 
