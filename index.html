@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON to CSV Converter</title>
+    <title>Sims 4 MOD用 JSON to CSV Converter</title>
     <!-- Tailwind CSS CDNを読み込み -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -17,9 +17,9 @@
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
     <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-xl text-center border border-gray-200">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6">JSONからCSVへ変換</h1>
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Sims 4 MOD用 JSON to CSV Converter</h1>
         <p class="text-gray-600 mb-6">
-            JSONファイルをアップロードすると、自動的にCSVに変換してダウンロードします。
+            Sims 4のMOD用JSONファイル（keyとvalueの形式）をCSVに変換してダウンロードします。
         </p>
         
         <!-- ファイル入力エリア -->
@@ -45,6 +45,24 @@
         
         <!-- メッセージ表示エリア -->
         <div id="message" class="mt-6 text-sm text-gray-600 font-medium h-6"></div>
+
+        <!-- 追加された補足情報セクション -->
+        <div class="mt-8 pt-6 border-t border-gray-200 text-left">
+            <h2 class="text-lg font-bold text-gray-800 mb-2">補足情報</h2>
+            <p class="text-gray-600 mb-2">
+                CSVに変換した後、こちらで翻訳できます。上のツール部分に翻訳開始とjsonファイルでダウンロードできる項目があります。翻訳実行をするときに極限を促されますが安全にご利用できます。
+            </p>
+            <a href="https://docs.google.com/spreadsheets/d/1kY-hnLaPf46MG7BWU3xcOKhk441BC0_LOjXHwEDn9cw/edit?usp=sharing" target="_blank" class="text-indigo-600 hover:underline">
+                Googleスプレッドシート（翻訳ツール）
+            </a>
+            <p class="text-gray-600 mt-4 mb-2">
+                上記ではプレースホルダーは翻訳されておりませんのでこちらで自動的に修正することができます。
+            </p>
+            <a href="https://github.com/nonamesims4/The-Sims-4-MOD-JSON-" target="_blank" class="text-indigo-600 hover:underline">
+                GitHubリポジトリ（自動修正ツール）
+            </a>
+        </div>
+
     </div>
 
     <script>
@@ -82,16 +100,19 @@
                         const jsonString = e.target.result;
                         const data = JSON.parse(jsonString);
 
-                        // JSONデータが配列であることを確認し、そうでない場合は配列に変換
-                        const arrayData = Array.isArray(data) ? data : [data];
+                        // JSONデータが配列であることを確認
+                        if (!Array.isArray(data)) {
+                            messageDiv.textContent = 'エラー: JSONファイルは配列形式である必要があります。';
+                            return;
+                        }
 
-                        if (arrayData.length === 0) {
+                        if (data.length === 0) {
                             messageDiv.textContent = 'エラー: JSONファイルにデータが含まれていません。';
                             return;
                         }
 
                         // JSONデータをCSV文字列に変換
-                        const csv = convertToCsv(arrayData);
+                        const csv = convertToCsv(data);
                         
                         // CSVファイルを生成してダウンロード
                         downloadCsv(csv, file.name);
@@ -107,19 +128,20 @@
             });
 
             function convertToCsv(data) {
-                // ヘッダーを生成（最初のオブジェクトのキーを使用）
-                const header = Object.keys(data[0]);
+                // ヘッダーを'key'と'value'に固定
+                const header = ['key', 'value'];
                 const csvHeader = header.join(',') + '\n';
 
                 // 行データを生成
-                const csvRows = data.map(row => 
-                    header.map(fieldName => {
-                        const value = row[fieldName];
-                        // 値をクリーンアップし、カンマや改行が含まれる場合は二重引用符で囲む
-                        const cleanedValue = String(value).replace(/"/g, '""');
-                        return `"${cleanedValue}"`;
-                    }).join(',')
-                ).join('\n');
+                const csvRows = data.map(row => {
+                    // rowがオブジェクトであり、'key'と'value'プロパティを持つことを確認
+                    if (typeof row === 'object' && row.key !== undefined && row.value !== undefined) {
+                        const key = String(row.key).replace(/"/g, '""');
+                        const value = String(row.value).replace(/"/g, '""');
+                        return `"${key}","${value}"`;
+                    }
+                    return ''; // 無効な行はスキップ
+                }).filter(row => row !== '').join('\n'); // 空の行を削除
 
                 return csvHeader + csvRows;
             }
