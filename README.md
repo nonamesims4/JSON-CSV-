@@ -7,6 +7,9 @@
 
 Googleスプレッドシートなどでの翻訳作業を効率化し、よりスムーズにMODの日本語化を進めることを目的としています。
 
+🔄 JSONファイルの変換はこちらのサイトを利用してください：
+🌐  <a href="https://stbl.sims4toolkit.com/" target="_blank" rel="noopener noreferrer">STBL Studio</a>
+
 
 
 ## ✅ 使い方
@@ -49,14 +52,18 @@ https://github.com/nonamesims4/The-Sims-4-MOD-JSON-
 - **ブラウザ**：Google Chrome 推奨  
 - **ファイル形式**：拡張子 `.json` または `.xml` を含む UTF-8 形式のファイルに対応  
 
+
 ## ❓ よくある質問（FAQ）
 
-**Q. スプレッドシートで変な記号が翻訳されるのはなぜ？**  
-A. 一部環境では、Google翻訳APIがプレースホルダーを文字列として翻訳してしまうことがあります。  
-私の環境では発生しませんでしたが、念のため後処理ツールで正しい形に戻せるようにしています。
-
 **Q. 翻訳したファイルをそのままMODに使っていいの？**  
-A. こちらの <a href="https://stbl.sims4toolkit.com/" target="_blank" rel="noopener noreferrer">STBL Studio</a> でstblに変換後、翻訳ソフトで読み込むと翻訳パッケージとして使用できます。念のためバックアップを取ってからの使用をおすすめします。
+A. こちらの <a href="https://stbl.sims4toolkit.com/" target="_blank" rel="noopener noreferrer">STBL Studio</a>でstblに変換し保存後、翻訳ソフトで読み込むと翻訳パッケージとして使用できます。念のためバックアップを取ってからの使用をおすすめします。
+
+**Q. 大きなJSONファイルでも変換できる？**  
+A. はい、UTF-8形式のJSONファイルやxmlファイルなら数千エントリでもOK！(自分が試したのは3000行)ただし、大きなファイルは処理に時間がかかる場合があります。
+
+
+
+
 
 
 
@@ -69,7 +76,8 @@ Special Thanks
 - 素敵なMODやCCを制作してくださっているクリエイターの皆様  
 - 翻訳ソフトを開発してくださったエンジニアの皆様  
 - The Sims 4 MODの日本語化方法を共有してくださった方々  
-- STBL Studioという素晴らしいサイトを紹介してくださった方  
+- STBL Studioという素晴らしいサイトを紹介してくださった方
+- STBL Studioという素晴らしいサイトを作ってくれたFrankk様
 - プレースホルダーの仕組みをわかりやすく解説してくださったブログの運営者様  
 - 英語が苦手な私に丁寧に教えてくれた家族  
 
@@ -78,3 +86,4 @@ Special Thanks
 
 そして――  
 このツールを見つけてくださった **あなた** に、最大級の感謝を。
+
