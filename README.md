@@ -16,3 +16,6 @@ Googleスプレッドシート（翻訳ツール）: https://docs.google.com/spr
 また、スプレッドシートでの翻訳ではプレースホルダーがうまく翻訳されないことがあります。以下のGitHubリポジトリにあるツールを使用すると、プレースホルダーを自動的に修正することができます。
 
 GitHubリポジトリ（自動修正ツール）: https://github.com/nonamesims4/The-Sims-4-MOD-JSON-
+
+Special Thanks
+このツールは、Geminiの協力のもと作成されました。
