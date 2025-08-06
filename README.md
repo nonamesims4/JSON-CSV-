@@ -5,9 +5,9 @@
 
 JSONファイルの変換はこちらのサイトを利用してください：<a href="https://stbl.sims4toolkit.com/" target="_blank" rel="noopener noreferrer">STBL Studio</a>
 
-このツールは、Sims 4のMODファイルで使われている、`key` と `value` の形式のJSONデータやS4 STBL MergeなどのソフトからダウンロードできるxmlファイルをCSVファイルに変換し翻訳するために作られました。
+このツールは、Sims 4のMODファイルで使われている、`key` と `value` の形式のJSONデータやS4 STBL MergeなどのソフトからダウンロードできるxmlファイルをCSVファイルに変換しGoogleスプレッドシートで翻訳するために作られました。
 
-Googleスプレッドシートなどでの翻訳作業を効率化し、よりスムーズにMODの日本語化を進めることを目的としています。
+よりスムーズにMODの日本語化を進めることを目的としています。
 
 
 
