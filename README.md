@@ -3,9 +3,8 @@
 ツールはこちら：
 <a href="https://nonamesims4.github.io/JSON-CSV-/" target="_blank" rel="noopener noreferrer">※新しいタブで開きたい場合は Ctrl+クリック（MacはCmd+クリック）</a>
 
-🔄 JSONファイルの変換はこちらのサイトまたはソフトを利用してください：  
+🔄 JSONファイルの変換はこちらのサイトを利用してください：  
 🌐 <a href="https://stbl.sims4toolkit.com/" target="_blank" rel="noopener noreferrer">STBL Studio</a>  
-🌐 <a href="https://github.com/voky1" target="_blank" rel="noopener noreferrer">The Sims 4 Translator</a>  
 
 このツールは、Sims 4のMODファイルで使われている、`key` と `value` の形式のJSONデータやS4 STBL MergeなどのソフトからダウンロードできるxmlファイルをCSVファイルに変換しGoogleスプレッドシートで翻訳するために作られました。
 
