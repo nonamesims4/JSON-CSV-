@@ -1,4 +1,4 @@
-# 🛠 Sims 4 MOD用 JSON/XML to CSV Converter
+# 🛠 Sims4 MOD用 JSON/XML to CSV Converter
 
 ツールはこちら：
 <a href="https://nonamesims4.github.io/JSON-CSV-/" target="_blank" rel="noopener noreferrer">※新しいタブで開きたい場合は Ctrl+クリック（MacはCmd+クリック）</a>
