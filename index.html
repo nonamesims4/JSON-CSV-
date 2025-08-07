@@ -19,16 +19,15 @@
     <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-xl text-center border border-gray-200">
         <h1 class="text-3xl font-bold text-gray-800 mb-6">Sims 4 MOD用 JSON/XML to CSV Converter</h1>
         <p class="text-gray-600 mb-6">
-            JSONファイルまたはXMLファイルをアップロードすると、CSVに変換し下記のGoogleスプレッドシートで翻訳、jsonファイルでダウンロードできます。
+            JSONファイルまたはXMLファイルをアップロードすると、CSVに変換してダウンロードできます。
         </p>
-        
+
         <!-- ファイル入力エリア -->
         <div class="mb-6">
             <label for="fileInput" class="block text-gray-700 font-medium mb-2">
                 <i class="fas fa-file-upload mr-2 text-indigo-500"></i>
                 JSONまたはXMLファイルを選択
             </label>
-            <!-- 複数のファイルタイプを受け付けるように変更 -->
             <input type="file" id="fileInput" accept=".json,.xml" class="w-full text-sm text-gray-500
                 file:mr-4 file:py-2 file:px-4
                 file:rounded-full file:border-0
@@ -36,14 +35,14 @@
                 file:bg-indigo-50 file:text-indigo-700
                 hover:file:bg-indigo-100 cursor-pointer"/>
         </div>
-        
+
         <!-- 変換ボタン -->
         <button id="convertBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full transition duration-300 transform hover:scale-105 shadow-lg
         disabled:bg-gray-400 disabled:cursor-not-allowed">
             <i class="fas fa-exchange-alt mr-2"></i>
             変換してダウンロード
         </button>
-        
+
         <!-- メッセージ表示エリア -->
         <div id="message" class="mt-6 text-sm text-gray-600 font-medium h-6"></div>
 
@@ -53,8 +52,8 @@
             <p class="text-gray-600 my-2">
                 CSV変換後、こちらのGoogleスプレッドシートで簡単に翻訳ができます。
             </p>
-            <!-- Googleスプレッドシートのリンクをここに移動 -->
             <a href="https://docs.google.com/spreadsheets/d/1kY-hnLaPf46MG7BWU3xcOKhk441BC0_LOjXHwEDn9cw/edit?usp=sharing" target="_blank" class="text-indigo-600 hover:underline">
+                <i class="fab fa-google-drive mr-2"></i>
                 Googleスプレッドシート（翻訳ツール）
             </a>
             <p class="text-gray-600 mb-2 font-bold mt-4">使い方</p>
@@ -68,10 +67,19 @@
             <p class="text-gray-600 mt-4 mb-2">
                 上記では**{M0.he}{F0.she}** などのプレースホルダーは翻訳されておりませんがこちらで自動的に修正することができます。
             </p>
-            <!-- リンクを別ウィンドウで開くようにtarget="_blank"を追加 -->
             <a href="https://github.com/nonamesims4/The-Sims-4-MOD-JSON-" target="_blank" class="text-indigo-600 hover:underline">
-                GitHubリポジトリ（自動修正ツール）
+                <i class="fab fa-github mr-2"></i>
+                Sims4jsonファイル翻訳修正ツール（GitHub）
             </a>
+            <a href="https://nonamesims4.github.io/The-Sims-4-MOD-JSON/" target="_blank" class="text-indigo-600 hover:underline mt-2 block">
+                <i class="fas fa-tools mr-2"></i>
+                Sims4専用JSONファイルタグ置換ツール（翻訳なしバージョン）
+            </a>
+        </div>
+        
+        <!-- 作成者情報セクション -->
+        <div class="mt-8 pt-6 border-t border-gray-200 text-center text-gray-500">
+            このツールは、<a href="https://gemini.google.com/" target="_blank" class="text-indigo-600 hover:underline"><b>Gemini</b></a>に作成を依頼しました。
         </div>
     </div>
 
@@ -81,10 +89,8 @@
             const convertBtn = document.getElementById('convertBtn');
             const messageDiv = document.getElementById('message');
 
-            // 初期状態でボタンを無効化
             convertBtn.disabled = true;
             
-            // ファイルが選択されたらボタンを有効化
             fileInput.addEventListener('change', () => {
                 if (fileInput.files.length > 0) {
                     convertBtn.disabled = false;
@@ -95,154 +101,195 @@
                 }
             });
 
-            convertBtn.addEventListener('click', () => {
+            convertBtn.addEventListener('click', async () => {
                 const files = fileInput.files;
                 if (files.length === 0) {
                     messageDiv.textContent = 'JSONまたはXMLファイルを選択してください。';
                     return;
                 }
 
+                messageDiv.textContent = 'ファイルを処理中です...';
+                convertBtn.disabled = true;
+
                 const file = files[0];
                 const fileName = file.name;
 
-                if (fileName.endsWith('.json')) {
-                    processFile(file, 'json');
-                } else if (fileName.endsWith('.xml')) {
-                    processFile(file, 'xml');
-                } else {
-                    messageDiv.textContent = 'エラー: 無効なファイル形式です。JSONまたはXMLファイルを選択してください。';
+                try {
+                    const fileContent = await readFileAsText(file);
+                    let csvContent;
+                    let outputFileName;
+
+                    if (fileName.endsWith('.json')) {
+                        csvContent = convertJsonToCsv(fileContent);
+                        outputFileName = fileName.replace(/\.json$/, '.csv');
+                    } else if (fileName.endsWith('.xml')) {
+                        csvContent = convertXmlToCsv(fileContent);
+                        outputFileName = fileName.replace(/\.xml$/, '.csv');
+                    } else {
+                        throw new Error('無効なファイル形式です。JSONまたはXMLファイルを選択してください。');
+                    }
+
+                    if (csvContent) {
+                        downloadCsv(csvContent, outputFileName);
+                        messageDiv.textContent = '変換が完了し、ダウンロードが開始されました。';
+                    } else {
+                        throw new Error('ファイルから有効なテキストデータが見つかりませんでした。');
+                    }
+                } catch (error) {
+                    messageDiv.textContent = `エラー: ${error.message}`;
+                    console.error('ファイル処理エラー:', error);
+                } finally {
+                    convertBtn.disabled = false;
                 }
             });
 
-            function processFile(file, fileType) {
-                const reader = new FileReader();
+            /**
+             * ファイルをテキストとして非同期で読み込みます。
+             * @param {File} file - 読み込むファイルオブジェクト
+             * @returns {Promise<string>} ファイル内容のテキスト
+             */
+            function readFileAsText(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.onerror = (e) => reject(new Error('ファイルの読み込みに失敗しました。'));
+                    reader.readAsText(file);
+                });
+            }
 
-                reader.onload = (e) => {
-                    try {
-                        const fileContent = e.target.result;
-                        let csvContent;
-                        let outputFileName;
-
-                        if (fileType === 'json') {
-                            const data = JSON.parse(fileContent);
-                            if (!Array.isArray(data)) {
-                                throw new Error('JSONファイルは配列形式である必要があります。');
+            /**
+             * JSON文字列を解析し、ネストされたキーと値をフラット化します。
+             * @param {string} jsonString - JSONデータを含む文字列
+             * @returns {Array<Array<string>>} [key, value]の配列
+             */
+            function convertJsonToCsv(jsonString) {
+                const data = JSON.parse(jsonString);
+                const flattenedData = {};
+                
+                // 再帰的にJSONを平坦化するヘルパー関数
+                function flatten(obj, parentKey = '') {
+                    if (obj && typeof obj === 'object') {
+                        // 配列の場合は、各要素をインデックス付きで処理
+                        if (Array.isArray(obj)) {
+                            obj.forEach((item, index) => {
+                                flatten(item, `${parentKey}[${index}]`);
+                            });
+                        } else {
+                            for (const key in obj) {
+                                if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                                    const newKey = parentKey ? `${parentKey}.${key}` : key;
+                                    flatten(obj[key], newKey);
+                                }
                             }
-                            if (data.length === 0) {
-                                throw new Error('JSONファイルにデータが含まれていません。');
-                            }
-                            csvContent = convertJsonToCsv(data);
-                            outputFileName = file.name.replace(/\.json$/, '.csv');
-                        } else if (fileType === 'xml') {
-                            csvContent = convertXmlToCsv(fileContent);
-                            if (!csvContent) {
-                                // XMLファイルに有効なデータがなかった場合、エラーをスロー
-                                throw new Error('XMLファイルに有効なテキストデータ（<TextStringDefinition>、<String>、または<KEY>タグ）が見つかりませんでした。');
-                            }
-                            outputFileName = file.name.replace(/\.xml$/, '.csv');
                         }
-                        
-                        downloadCsv(csvContent, outputFileName);
-                        messageDiv.textContent = '変換が完了し、ダウンロードが開始されました。';
-                    } catch (error) {
-                        messageDiv.textContent = `エラー: ${error.message}`;
-                        console.error('ファイル処理エラー:', error);
+                    } else if (typeof obj === 'string' && obj.trim() !== '') {
+                        // 文字列値が見つかったら、flattenedDataに追加
+                        // 重複するキーを避けるため、一意なキーを作成
+                        let uniqueKey = parentKey;
+                        let counter = 1;
+                        while (flattenedData[uniqueKey] !== undefined) {
+                            uniqueKey = `${parentKey}-${counter}`;
+                            counter++;
+                        }
+                        flattenedData[uniqueKey] = obj;
                     }
-                };
+                }
+                
+                flatten(data);
+                
+                if (Object.keys(flattenedData).length === 0) {
+                    throw new Error('JSONファイルに有効なテキストデータが見つかりませんでした。');
+                }
 
-                reader.readAsText(file);
-            }
-
-            function convertJsonToCsv(data) {
-                // ヘッダーを'key'と'value'に固定
+                // CSVヘッダーと行を生成
                 const header = ['key', 'value'];
-                const csvHeader = header.join(',') + '\n';
-
-                // 行データを生成
-                const csvRows = data.map(row => {
-                    if (typeof row === 'object' && row.key !== undefined && row.value !== undefined) {
-                        const key = String(row.key).replace(/"/g, '""');
-                        const value = String(row.value).replace(/"/g, '""');
-                        return `"${key}","${value}"`;
-                    }
-                    return null;
-                }).filter(row => row !== null).join('\n');
-
-                return csvHeader + csvRows;
+                const csvRows = Object.entries(flattenedData).map(([key, value]) => [key, value]);
+                return toCsvString(header, csvRows);
             }
 
+            /**
+             * XML文字列を解析し、すべてのテキストノードをキーと値のペアとして抽出します。
+             * @param {string} xmlString - XMLデータを含む文字列
+             * @returns {Array<Array<string>> | null} [key, value]の配列、またはnull
+             */
             function convertXmlToCsv(xmlString) {
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
                 const errorNode = xmlDoc.querySelector('parsererror');
 
                 if (errorNode) {
-                    console.error('XMLパースエラー:', errorNode.textContent);
-                    return null;
+                    throw new Error(`XMLパースエラー: ${errorNode.textContent}`);
                 }
 
-                const rows = [];
-                let tagsFound = false;
+                const flattenedData = {};
 
-                // 1. <TextStringDefinition>タグの形式を最初に試す
-                const textDefinitions = xmlDoc.getElementsByTagName('TextStringDefinition');
-                if (textDefinitions.length > 0) {
-                    for (const definition of textDefinitions) {
-                        const instanceId = definition.getAttribute('InstanceID') || '';
-                        const textString = definition.getAttribute('TextString') || '';
-                        rows.push([instanceId, textString]);
-                    }
-                    tagsFound = true;
-                }
+                // 再帰的にXMLを平坦化するヘルパー関数
+                function flatten(node, path = '') {
+                    // 要素ノードの場合
+                    if (node.nodeType === 1) {
+                        const newPath = path ? `${path}/${node.nodeName}` : node.nodeName;
 
-                // 2. <String>タグの形式を次に試す
-                if (!tagsFound) {
-                    const strings = xmlDoc.getElementsByTagName('String');
-                    if (strings.length > 0) {
-                        for (const string of strings) {
-                            const stringId = string.getAttribute('Id') || '';
-                            const textNode = string.getElementsByTagName('Text')[0];
-                            const text = textNode ? textNode.textContent : '';
-                            rows.push([stringId, text]);
+                        // 属性を処理
+                        for (let i = 0; i < node.attributes.length; i++) {
+                            const attr = node.attributes[i];
+                            const attrKey = `${newPath}@${attr.name}`;
+                            const attrValue = attr.value.trim();
+                            if (attrValue !== '') {
+                                flattenedData[attrKey] = attrValue;
+                            }
                         }
-                        tagsFound = true;
-                    }
-                }
 
-                // 3. <KEY>タグの形式を最後に試す
-                if (!tagsFound) {
-                    const keys = xmlDoc.getElementsByTagName('KEY');
-                    if (keys.length > 0) {
-                        for (const key of keys) {
-                            const stringId = key.getAttribute('Id') || '';
-                            const valueNode = key.getElementsByTagName('VALUE')[0];
-                            const text = valueNode ? valueNode.textContent : '';
-                            rows.push([stringId, text]);
+                        // 子ノードを再帰的に処理
+                        for (const child of node.childNodes) {
+                            flatten(child, newPath);
                         }
-                        tagsFound = true;
+                    } 
+                    // テキストノードの場合
+                    else if (node.nodeType === 3) {
+                        const text = node.textContent.trim();
+                        if (text !== '') {
+                            let uniqueKey = path;
+                            let counter = 1;
+                            while (flattenedData[uniqueKey] !== undefined) {
+                                uniqueKey = `${path}-${counter}`;
+                                counter++;
+                            }
+                            flattenedData[uniqueKey] = text;
+                        }
                     }
                 }
 
-                if (!tagsFound) {
-                    // どの形式も見つからない場合
-                    console.error('XMLファイルに有効な<TextStringDefinition>、<String>、または<KEY>タグが見つかりませんでした。');
-                    return null;
-                }
-                
-                // ヘッダーを'Id'と'Text'に固定
-                const header = ['Id', 'Text'];
-                const csvHeader = header.join(',') + '\n';
+                flatten(xmlDoc.documentElement);
 
+                if (Object.keys(flattenedData).length === 0) {
+                    throw new Error('XMLファイルに有効なテキストデータが見つかりませんでした。');
+                }
+
+                // CSVヘッダーと行を生成
+                const header = ['key', 'value'];
+                const csvRows = Object.entries(flattenedData).map(([key, value]) => [key, value]);
+                return toCsvString(header, csvRows);
+            }
+
+            /**
+             * ヘッダーと行のデータからCSV文字列を生成します。
+             * @param {string[]} header - CSVヘッダー
+             * @param {Array<Array<string>>} rows - 行データ
+             * @returns {string} CSV文字列
+             */
+            function toCsvString(header, rows) {
+                const csvHeader = header.map(field => `"${String(field).replace(/"/g, '""')}"`).join(',') + '\n';
                 const csvRows = rows.map(row => 
-                    row.map(field => {
-                        const cleanedValue = String(field).replace(/"/g, '""');
-                        return `"${cleanedValue}"`;
-                    }).join(',')
+                    row.map(field => `"${String(field).replace(/"/g, '""')}"`).join(',')
                 ).join('\n');
-
                 return csvHeader + csvRows;
             }
 
+            /**
+             * CSV文字列をファイルとしてダウンロードします。
+             * @param {string} csvString - CSV文字列
+             * @param {string} fileName - ファイル名
+             */
             function downloadCsv(csvString, fileName) {
                 const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
                 const link = document.createElement('a');
