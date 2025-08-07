@@ -43,9 +43,9 @@ https://docs.google.com/spreadsheets/d/1kY-hnLaPf46MG7BWU3xcOKhk441BC0_LOjXHwEDn
 
 上記では**{M0.he}{F0.she}** などのプレースホルダーは翻訳されませんが以下のGitHubリポジトリにある、私が作成したツールを使用すると、プレースホルダーを自動的に修正することができます。
 
-🔧 **GitHubリポジトリ（自動修正ツール）**  
+🔧 **Sims4専用JSONファイルタグ置換ツール**  
 https://github.com/nonamesims4/The-Sims-4-MOD-JSON-  
-🔧 **GSims4専用JSONファイルタグ置換ツール翻訳なしバージョ）**  
+🔧 **Sims4専用JSONファイルタグ置換ツール翻訳なしバージョン**  
 https://nonamesims4.github.io/The-Sims-4-MOD-JSON-/
 
 
