@@ -1,7 +1,12 @@
 # 🛠 Sims4 MOD用 JSON/XML to CSV Converter
 
 ツールはこちら：
-<a href="https://nonamesims4.github.io/JSON-CSV-/" target="_blank" rel="noopener noreferrer">※新しいタブで開きたい場合は Ctrl+クリック（MacはCmd+クリック）</a>
+<a href="https://nonamesims4.github.io/JSON-CSV-/" target="_blank" rel="noopener noreferrer">※新しいタブで開きたい場合は Ctrl+クリック（MacはCmd+クリック）</a>  
+
+# 🛠 TheSims4Translator用JSONファイルEntries抽出ツール  
+
+ツールはこちら：
+<a href="https://nonamesims4.github.io/JSON-CSV-/tool.html" target="_blank" rel="noopener noreferrer">※新しいタブで開きたい場合は Ctrl+クリック（MacはCmd+クリック）</a> 
 
 🔄 JSONファイルの変換はこちらのサイトを利用してください：  
 🌐 <a href="https://stbl.sims4toolkit.com/" target="_blank" rel="noopener noreferrer">STBL Studio</a>  
