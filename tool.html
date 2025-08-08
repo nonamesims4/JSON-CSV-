@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TheSims4Translator専用JSONファイルEntries抽出ツール</title>
+    <!-- Tailwind CSSをCDNで読み込み -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* HTMLタグに適用する基本スタイル */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* テーブルの横スクロール対応 */
+        .table-responsive {
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center p-4">
+
+    <!-- メインコンテンツのコンテナ -->
+    <div class="container mx-auto max-w-4xl p-6 bg-white rounded-xl shadow-lg mt-8">
+        <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 text-center">
+            TheSims4Translator専用<br>JSONファイルEntries抽出ツール
+        </h1>
+        
+        <!-- 概要部分 -->
+        <div class="mb-6 text-gray-700 leading-relaxed">
+            <p class="mb-2">このツールは、TheSims4Translator が出力するJSON形式ファイルの中から、「Entries」配列だけを抽出し、他ツールで使えるシンプルな形式のJSONファイルやCSVファイルとして保存できます。</p>
+            <p class="mb-2">抽出後のファイルは以下で一括翻訳できます：</p>
+            <ul class="list-disc list-inside space-y-1 ml-4">
+                <li>
+                    🔗 JSONファイルは、<a href="https://github.com/nonamesims4/The-Sims-4-MOD-JSON-" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-700">sims4jsonファイル翻訳修正ツール（GitHub）</a> で翻訳できます。
+                </li>
+                <li>
+                    🔗 <a href="https://docs.google.com/spreadsheets/d/1kY-hnLaPf46MG7BWU3xcOKhk441BC0_LOjXHwEDn9cw/edit?gid=170644196#gid=170644196" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-700">Googleスプレッドシート</a> を使えば、CSV形式の翻訳を行い、再びJSONとして保存できます。
+                </li>
+                <li>
+                    🔗 Googleスプレッドシートで翻訳したファイルは、<a href="https://nonamesims4.github.io/The-Sims-4-MOD-JSON-/" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-700">Sims4専用JSONファイルタグ置換ツール（翻訳なしバージョン）</a> を使ってプレースホルダーを変換できます。
+                </li>
+            </ul>
+        </div>
+
+        <!-- ファイル入力とボタン -->
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
+            <label class="block">
+                <span class="sr-only">Choose JSON file</span>
+                <input type="file" id="fileInput" accept=".json" class="block w-full text-sm text-gray-700
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-full file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-blue-50 file:text-blue-700
+                    hover:file:bg-blue-100 cursor-pointer" />
+            </label>
+            <button id="downloadJsonBtn" disabled class="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-full shadow-md
+                    disabled:opacity-50 disabled:cursor-not-allowed hover:bg-indigo-700 transition-colors duration-200">
+                JSONでダウンロード
+            </button>
+            <button id="downloadCsvBtn" disabled class="px-6 py-2 bg-green-600 text-white font-semibold rounded-full shadow-md
+                    disabled:opacity-50 disabled:cursor-not-allowed hover:bg-green-700 transition-colors duration-200">
+                CSVでダウンロード
+            </button>
+        </div>
+
+        <!-- メッセージ表示エリア -->
+        <p id="message" class="text-center text-red-600 mb-6 min-h-[1.5rem] font-medium"></p>
+
+        <!-- プレビューテーブルのコンテナ -->
+        <section class="table-responsive w-full border border-gray-300 rounded-lg shadow-sm bg-white overflow-hidden">
+            <table id="previewTable" class="min-w-full divide-y divide-gray-200 hidden">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Key</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Value</th>
+                    </tr>
+                </thead>
+                <tbody id="previewBody" class="bg-white divide-y divide-gray-200">
+                    <!-- JavaScriptが内容を追加 -->
+                </tbody>
+            </table>
+        </section>
+
+        <hr class="my-8 border-gray-300">
+
+        <!-- 機能説明セクション -->
+        <section class="text-gray-700 leading-relaxed">
+            <h2 class="text-2xl font-bold mb-3 text-gray-800">主な機能</h2>
+            <ul class="list-disc list-inside space-y-1 ml-4">
+                <li>TheSims4TranslatorのJSONファイル（「Locale」や他の情報でラップされた構造）を読み込み</li>
+                <li>ファイル内の「Entries」キーに対応する配列だけを取り出す</li>
+                <li>抽出した配列を、新しいJSONファイルに小文字のキー名（key, value）でわかりやすく保存する</li>
+                <li>後続処理（例えばCSV変換や翻訳ツールでの利用など）の準備に最適</li>
+            </ul>
+
+            <h2 class="text-2xl font-bold mb-3 mt-6 text-gray-800">利用シーン</h2>
+            <ul class="list-disc list-inside space-y-1 ml-4">
+                <li>MOD翻訳作業でTheSims4TranslatorのJSONファイルを扱う際、必要なエントリ情報だけを切り出したい時</li>
+                <li>抽出したEntriesリストをCSVへ変換したり、Googleスプレッドシートなど外部ツールで編集・翻訳したい時</li>
+                <li>JSONファイルの余計なラッパー情報を取り除き、シンプルなデータ構造に整えたい時</li>
+            </ul>
+            <p class="mt-4"><strong>想定利用者:</strong> TheSims4Translatorユーザー、MOD開発者、翻訳者、データ管理者など</p>
+
+            <h2 class="text-2xl font-bold mb-3 mt-6 text-gray-800">技術的な説明</h2>
+            <ul class="list-disc list-inside space-y-1 ml-4">
+                <li>JavaScriptを使用してブラウザ内で完結するため、サーバーやPython環境は不要</li>
+                <li>JSONファイルの「Entries」キーから配列を取り出し、そのまま別ファイルに小文字のキー名で出力</li>
+                <li>多くのJSON→CSV変換ツールなどはトップレベルが配列であることを想定しているため、変換の前処理として便利</li>
+            </ul>
+        </section>
+        
+        <hr class="my-8 border-gray-300">
+
+        <!-- Geminiと作者へのリンク -->
+        <div class="text-center text-sm text-gray-500 space-y-2">
+            <p>このツールは、<a href="https://www.gemini.com" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:text-blue-700">Gemini</a>に作成を依頼しました。</p>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const downloadJsonBtn = document.getElementById('downloadJsonBtn');
+        const downloadCsvBtn = document.getElementById('downloadCsvBtn');
+        const messageDiv = document.getElementById('message');
+        const previewTable = document.getElementById('previewTable');
+        const previewBody = document.getElementById('previewBody');
+
+        let extractedEntries = null;
+        let currentFilename = '';
+
+        fileInput.addEventListener('change', () => {
+            messageDiv.textContent = '';
+            extractedEntries = null;
+            previewBody.innerHTML = '';
+            previewTable.classList.add('hidden');
+            downloadJsonBtn.disabled = true;
+            downloadCsvBtn.disabled = true;
+
+            if (fileInput.files.length === 0) return;
+
+            const file = fileInput.files[0];
+            currentFilename = file.name;
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+
+                    if (Array.isArray(data)) {
+                        extractedEntries = data;
+                    } else if (data && Array.isArray(data.Entries)) {
+                        extractedEntries = data.Entries;
+                    } else {
+                        throw new Error('JSONが期待された形式ではありません。トップレベルが配列かEntries配列を含む必要があります。');
+                    }
+
+                    if (!extractedEntries || extractedEntries.length === 0) {
+                        throw new Error('Entries配列にデータが含まれていません。');
+                    }
+
+                    // プレビュー表示（小文字のkey/valueに変換して表示）
+                    previewBody.innerHTML = '';
+                    extractedEntries.slice(0, 100).forEach(entry => {
+                        const tr = document.createElement('tr');
+                        tr.className = 'hover:bg-gray-100';
+
+                        const keyTd = document.createElement('td');
+                        const valTd = document.createElement('td');
+
+                        // 小文字のkey/valueで表示
+                        keyTd.textContent = entry.Key ?? entry.key ?? '';
+                        keyTd.className = 'px-6 py-2 whitespace-nowrap text-sm font-medium text-gray-900 border-r border-gray-200';
+                        valTd.textContent = entry.Value ?? entry.value ?? '';
+                        valTd.className = 'px-6 py-2 whitespace-nowrap text-sm text-gray-500';
+
+                        tr.appendChild(keyTd);
+                        tr.appendChild(valTd);
+                        previewBody.appendChild(tr);
+                    });
+                    previewTable.classList.remove('hidden');
+
+                    downloadJsonBtn.disabled = false;
+                    downloadCsvBtn.disabled = false;
+                    messageDiv.textContent = `Entriesを${extractedEntries.length}件抽出しました。`;
+                } catch (err) {
+                    messageDiv.textContent = 'エラー: ' + err.message;
+                }
+            };
+
+            reader.onerror = () => {
+                messageDiv.textContent = 'ファイルの読み込み中にエラーが発生しました。';
+            };
+
+            reader.readAsText(file, 'UTF-8');
+        });
+
+        downloadJsonBtn.addEventListener('click', () => {
+            if (!extractedEntries) return;
+
+            // 小文字key/valueに変換して出力
+            const entriesLower = extractedEntries.map(e => ({
+                key: e.Key ?? e.key ?? '',
+                value: e.Value ?? e.value ?? ''
+            }));
+
+            const jsonStr = JSON.stringify(entriesLower, null, 2);
+            const filename = currentFilename.replace(/\.json$/i, '_entries.json');
+            triggerDownload(jsonStr, filename, 'application/json');
+        });
+
+        downloadCsvBtn.addEventListener('click', () => {
+            if (!extractedEntries) return;
+
+            const header = ['key', 'value'];
+            const csvRows = [];
+            csvRows.push(header.join(','));
+
+            extractedEntries.forEach(entry => {
+                const key = (entry.Key ?? entry.key ?? '').toString().replace(/"/g, '""');
+                const val = (entry.Value ?? entry.value ?? '').toString().replace(/"/g, '""');
+                csvRows.push(`"${key}","${val}"`);
+            });
+
+            const csvContent = csvRows.join('\r\n');
+            const filename = currentFilename.replace(/\.json$/i, '_entries.csv');
+            triggerDownload(csvContent, filename, 'text/csv');
+        });
+
+        function triggerDownload(content, filename, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 0);
+        }
+    </script>
+
+</body>
+</html>
