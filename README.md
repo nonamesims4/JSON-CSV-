@@ -8,9 +8,6 @@
 ツールはこちら：
 <a href="https://nonamesims4.github.io/JSON-CSV-/tool.html" target="_blank" rel="noopener noreferrer">※新しいタブで開きたい場合は Ctrl+クリック（MacはCmd+クリック）</a> 
 
-ツールはこちら：  
-<a href="https://nonamesims4.github.io/TheSims4Translator-JSON-/" target="_blank">※新しいタブで開きたい場合は Ctrl+クリック（MacはCmd+クリック）</a>  
-
 🔄 JSONファイルの変換はこちらのサイトやソフトを利用してください：  
 🌐 <a href="https://stbl.sims4toolkit.com/" target="_blank" rel="noopener noreferrer">STBL Studio</a>  
 🌐 <a href="https://github.com/voky1" target="_blank" rel="noopener noreferrer">TheSims4Translator</a>
