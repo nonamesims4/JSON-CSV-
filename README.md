@@ -6,13 +6,13 @@
 # 🛠 TheSims4Translator用JSONファイルEntries抽出ツール  
 
 ツールはこちら：
-<a href="https://nonamesims4.github.io/JSON-CSV-/tool.html" target="_blank" rel="noopener noreferrer">※新しいタブで開きたい場合は Ctrl+クリック（MacはCmd+クリック）</a> 
+<a href="https://nonamesims4.github.io/JSON-CSV-/tool.html" target="_blank" rel="noopener noreferrer">※新しいタブで開きたい場合は Ctrl+クリック（MacはCmd+クリック）</a>  
+
+🆕TheSims4Translatorから出力されるJSONファイルに変換し即パッケージ化できるツール作りました🌐<a href="https://nonamesims4.github.io/TheSims4Translator-JSON-/" target="_blank">ツールはこちら</a> 
 
 🔄 JSONファイルの変換はこちらのサイトやソフトを利用してください：  
 🌐 <a href="https://stbl.sims4toolkit.com/" target="_blank" rel="noopener noreferrer">STBL Studio</a>  
-🌐 <a href="https://github.com/voky1" target="_blank" rel="noopener noreferrer">TheSims4Translator</a>  
-
-🆕TheSims4Translatorから出力されるJSONファイルに変換し即パッケージ化できるツール作りました🌐<a href="https://nonamesims4.github.io/TheSims4Translator-JSON-/" target="_blank">ツールはこちら</a>  
+🌐 <a href="https://github.com/voky1" target="_blank" rel="noopener noreferrer">TheSims4Translator</a>   
 
 このツールは、Sims 4のMODファイルで使われている、`key` と `value` の形式のJSONデータやS4 STBL MergeなどのソフトからダウンロードできるxmlファイルをCSVファイルに変換しGoogleスプレッドシートで翻訳するために作られました。  
 またTheSims4Translator用JSONファイルEntries抽出ツールではTheSims4Translator が出力するJSON形式ファイルの中から、Entries」配列だけを抽出し、他ツールで使えるシンプルな形式のJSONファイルやCSVファイルとして保存できます。  
