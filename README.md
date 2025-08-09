@@ -8,8 +8,6 @@
 ツールはこちら：
 <a href="https://nonamesims4.github.io/JSON-CSV-/tool.html" target="_blank" rel="noopener noreferrer">※新しいタブで開きたい場合は Ctrl+クリック（MacはCmd+クリック）</a>  
 
-🆕TheSims4Translatorから出力されるJSONファイルに変換し即パッケージ化できるツール作りました🌐<a href="https://nonamesims4.github.io/TheSims4Translator-JSON-/" target="_blank">ツールはこちら</a> 
-
 🔄 JSONファイルの変換はこちらのサイトやソフトを利用してください：  
 🌐 <a href="https://stbl.sims4toolkit.com/" target="_blank" rel="noopener noreferrer">STBL Studio</a>  
 🌐 <a href="https://github.com/voky1" target="_blank" rel="noopener noreferrer">TheSims4Translator</a>   
@@ -68,6 +66,8 @@ https://nonamesims4.github.io/The-Sims-4-MOD-JSON-/
 
 **Q. 翻訳したファイルをそのままMODに使っていいの？**  
 A. こちらの <a href="https://stbl.sims4toolkit.com/" target="_blank" rel="noopener noreferrer">STBL Studio</a>でstblに変換し保存後、翻訳ソフトで読み込むと翻訳パッケージとして使用できます。念のためバックアップを取ってからの使用をおすすめします。
+また🆕TheSims4Translatorから出力されるJSONファイルに変換し即パッケージ化できるツールを使っても翻訳パッケージとして使用できます🌐<a href="https://nonamesims4.github.io/TheSims4Translator-JSON-/" target="_blank">ツールはこちら</a> 
+
 
 **Q. 大きなJSONファイルでも変換できる？**  
 A. はい、UTF-8形式のJSONファイルやxmlファイルなら数千エントリでもOK！(自分が試したのは3000行)ただし、大きなファイルは処理に時間がかかる場合があります。
